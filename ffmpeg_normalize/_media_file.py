@@ -270,12 +270,16 @@ class MediaFile():
         else:
             for index, (_, audio_stream) in enumerate(self.streams['audio'].items()):
                 cmd.extend(['-c:a:{}'.format(index), audio_stream.get_pcm_codec()])
+                cmd.extend(['-ar', str(audio_stream.sample_rate)])
 
         # other audio options (if any)
         if self.ffmpeg_normalize.audio_bitrate:
             cmd.extend(['-b:a', str(self.ffmpeg_normalize.audio_bitrate)])
-        if self.ffmpeg_normalize.sample_rate:
-            cmd.extend(['-ar', str(self.ffmpeg_normalize.sample_rate)])
+        # logger.debug("before sample rate extend")
+        # logger.debug("ffmpeg_normalize.sample_rate is {}".format(self.ffmpeg_normalize.sample_rate))
+        # if self.ffmpeg_normalize.sample_rate:
+            # cmd.extend(['-ar', str(self.ffmpeg_normalize.sample_rate)])
+            # logger.debug("sample rate extend")
 
         # ... and subtitles
         if not self.ffmpeg_normalize.subtitle_disable:
